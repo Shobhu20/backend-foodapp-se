@@ -1,7 +1,8 @@
-package com.windsor.foodapp.foodapp.service;
+package com.windsor.foodapp.service;
 
-import com.windsor.foodapp.foodapp.dao.UserDao;
-import com.windsor.foodapp.foodapp.util.RandomStringUtils;
+import com.windsor.foodapp.dao.UserDao;
+import com.windsor.foodapp.model.ClientUser;
+import com.windsor.foodapp.util.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,5 +31,13 @@ public class UserService {
     private String genAndSaveToken(String email) {
         //todo : save this for user
         return RandomStringUtils.getRandomString(10);
+    }
+
+    public void registerUser(ClientUser clientUser) throws Exception {
+        try {
+            userDao.registerUser(clientUser);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 }

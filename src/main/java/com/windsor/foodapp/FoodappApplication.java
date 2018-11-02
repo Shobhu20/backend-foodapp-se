@@ -1,4 +1,4 @@
-package com.windsor.foodapp.foodapp;
+package com.windsor.foodapp;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.SpringApplication;

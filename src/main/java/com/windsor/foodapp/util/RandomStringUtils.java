@@ -1,4 +1,4 @@
-package com.windsor.foodapp.foodapp.util;
+package com.windsor.foodapp.util;
 
 import java.util.Random;
 

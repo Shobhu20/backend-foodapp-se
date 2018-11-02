@@ -1,4 +1,4 @@
-package com.windsor.foodapp.foodapp;
+package com.windsor.foodapp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
