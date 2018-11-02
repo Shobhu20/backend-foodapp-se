@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.time.LocalDateTime;
@@ -25,7 +25,6 @@ public class UserDao {
     }
 
     public void registerUser(ClientUser clientUser) throws Exception {
-        //TODO : insert creation and updation date
         String creation_date = LocalDateTime.now().toString();
 
         String sql = "insert into AppUser (first_name,last_name,email_id, password,phone_number,user_status,created_at,updated_at) " +
@@ -37,5 +36,18 @@ public class UserDao {
                 throw new Exception("email already exists");
             throw new Exception(e.getMessage());
         }
+    }
+
+    public String getTokenForEmail(String email) {
+        String sql = "select token from authtoken where email = ?";
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, email);
+        if(maps.isEmpty())
+            return null;
+        return maps.get(0).get("token").toString();
+    }
+
+    public void saveTokenForEmail(String email, String token) {
+        String sql = "INSERT INTO authtoken (token, email, created_at) VALUES ('" + token +"','" + email + "','" + LocalDate.now().toString() + "')";
+        jdbcTemplate.update(sql);
     }
 }

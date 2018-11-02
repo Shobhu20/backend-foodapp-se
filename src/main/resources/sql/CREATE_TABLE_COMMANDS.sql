@@ -16,3 +16,11 @@ alter sequence AppUser_id_seq restart with 1;
 
 insert into AppUser (first_name,last_name,email_id, password,phone_number,user_status)
 values ('test_user1','username2','test@test.com','testpass',1234567890,0);
+
+
+create table authtoken(
+id serial primary key,
+email varchar not null unique,
+token varchar not null,
+created_at timestamp
+);

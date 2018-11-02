@@ -29,8 +29,13 @@ public class UserService {
     }
 
     private String genAndSaveToken(String email) {
-        //todo : save this for user
-        return RandomStringUtils.getRandomString(10);
+        String token = userDao.getTokenForEmail(email);
+
+        if(token != null)
+            return token;
+        token = RandomStringUtils.getRandomString(10);
+        userDao.saveTokenForEmail(email, token);
+        return token;
     }
 
     public void registerUser(ClientUser clientUser) throws Exception {
