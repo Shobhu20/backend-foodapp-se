@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
 
 @Component
 public class UserDao {
@@ -24,11 +26,15 @@ public class UserDao {
 
     public void registerUser(ClientUser clientUser) throws Exception {
         //TODO : insert creation and updation date
-        String sql = "insert into AppUser (first_name,last_name,email_id, password,phone_number,user_status) " +
-                "values ('" + clientUser.getFirstName() + "','" + clientUser.getLastName() + ("','") + clientUser.getEmail()  + ("','") + clientUser.getPassword()  + ("','") + clientUser.getPhoneNumber() + "'," + clientUser.getStatus().getValue() + ")";
+        String creation_date = LocalDateTime.now().toString();
+
+        String sql = "insert into AppUser (first_name,last_name,email_id, password,phone_number,user_status,created_at,updated_at) " +
+                "values ('" + clientUser.getFirstName() + ("','") + clientUser.getLastName() + ("','") + clientUser.getEmail()  + ("','") + clientUser.getPassword()  + ("','") + clientUser.getPhoneNumber() + "','" + clientUser.getStatus().getValue() + ("','") + creation_date+("','") + creation_date+("')");
         try {
             jdbcTemplate.update(sql);
         } catch (Exception e) {
+            if(e.getMessage().contains("duplicate key value violates unique constraint \"con_first\""))
+                throw new Exception("email already exists");
             throw new Exception(e.getMessage());
         }
     }
