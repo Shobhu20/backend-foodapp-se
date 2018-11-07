@@ -1,5 +1,6 @@
 package com.windsor.foodapp.dao;
 
+import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 import com.windsor.foodapp.model.ClientUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -49,5 +50,11 @@ public class UserDao {
     public void saveTokenForEmail(String email, String token) {
         String sql = "INSERT INTO authtoken (token, email, created_at) VALUES ('" + token +"','" + email + "','" + LocalDate.now().toString() + "')";
         jdbcTemplate.update(sql);
+    }
+
+    public ClientUser getUserForEmail(String email) {
+        String sql = "SELECT * FROM AppUser WHERE email_id = ?";
+        Map<String, Object> result = jdbcTemplate.queryForMap(sql, email);
+        return new ClientUser(result.get("email_id").toString() , "N/A", result.get("first_name").toString(),result.get("last_name").toString(),result.get("phone_number").toString(), CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(result.get("user_status").toString())));
     }
 }
