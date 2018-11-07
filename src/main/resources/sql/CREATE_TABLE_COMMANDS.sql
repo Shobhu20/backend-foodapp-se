@@ -24,3 +24,15 @@ email varchar not null unique,
 token varchar not null,
 created_at timestamp
 );
+
+
+create table FoodCourt(
+id serial primary key,
+name varchar unique,
+address varchar,
+city varchar,
+open_time varchar,
+close_time varchar
+);
+
+create index index_fc on foodcourt (city);

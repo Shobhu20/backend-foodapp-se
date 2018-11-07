@@ -20,9 +20,9 @@ public class UserController {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    //todo : post request
+
     //todo : add logging
-    @RequestMapping("/home")
+    @RequestMapping(value="/home", method = RequestMethod.POST)
     public String getHome(@RequestParam("email") String email, @RequestParam("password") String password) throws JsonProcessingException {
         Map<String, String> resultMap = new HashMap<>();
 
