@@ -57,4 +57,24 @@ public class UserDao {
         Map<String, Object> result = jdbcTemplate.queryForMap(sql, email);
         return new ClientUser(result.get("email_id").toString() , "N/A", result.get("first_name").toString(),result.get("last_name").toString(),result.get("phone_number").toString(), CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(result.get("user_status").toString())));
     }
+
+    public void updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        sql.append("update AppUser set");
+        try {
+            if(firstName != null)
+                sql.append(" first_name ='" + firstName + "',");
+            if(lastName != null)
+                sql.append(" last_name ='" + lastName + "',");
+            if(phoneNum != null)
+                sql.append(" phone_number ='" + phoneNum + "',");
+            if(password != null)
+                sql.append(" password ='" + password + "',");
+            String sqlUpdateQuery = sql.substring(0, sql.length()-1);
+            sqlUpdateQuery = sqlUpdateQuery + " where email_id = '" + email + "'";
+            jdbcTemplate.update(sqlUpdateQuery);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 }

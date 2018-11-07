@@ -56,4 +56,8 @@ public class UserService {
     public ClientUser getUserForEmail(String email) {
         return userDao.getUserForEmail(email);
     }
- }
+
+    public void updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
+        userDao.updateProfile(email, firstName, lastName, phoneNum, password);
+    }
+}
