@@ -6,6 +6,7 @@ public class FoodItem {
     private String name;
     private double cost;
     private String category;
+    private long timeToPrepareInMinutes;
 
     public FoodItem(int id, String name, double cost, String category) {
         this.id = id;
@@ -44,5 +45,13 @@ public class FoodItem {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public long getTimeToPrepareInMinutes() {
+        return timeToPrepareInMinutes;
+    }
+
+    public void setTimeToPrepareInMinutes(long timeToPrepareInMinutes) {
+        this.timeToPrepareInMinutes = timeToPrepareInMinutes;
     }
 }
