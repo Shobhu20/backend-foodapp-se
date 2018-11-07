@@ -22,7 +22,7 @@ public class UserController {
 
 
     //todo : add logging
-    @RequestMapping(value="/home", method = RequestMethod.POST)
+    @RequestMapping(value="/signIn", method = RequestMethod.POST)
     public String getHome(@RequestParam("email") String email, @RequestParam("password") String password) throws JsonProcessingException {
         Map<String, String> resultMap = new HashMap<>();
 
@@ -62,6 +62,14 @@ public class UserController {
             resultMap.put("reason", e.getMessage());
             return objectMapper.writeValueAsString(resultMap);
         }
+    }
+
+    @RequestMapping(value = "/loginFailed")
+    public String loginFailed() throws JsonProcessingException {
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("status", "failed");
+        resultMap.put("reason","email/token not correct");
+        return objectMapper.writeValueAsString(resultMap);
     }
 
     private void validateUserFields(ClientUser clientUser) throws Exception {

@@ -1,5 +1,6 @@
 package com.windsor.foodapp;
 
+import com.windsor.foodapp.interceptor.UserInterceptor;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,8 @@ public class FoodappApplication {
 				.type(HikariDataSource.class)
 				.build();
 	}
+
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(FoodappApplication.class, args);

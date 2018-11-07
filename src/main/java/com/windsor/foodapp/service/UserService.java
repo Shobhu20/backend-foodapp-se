@@ -16,14 +16,14 @@ public class UserService {
     public String authenticateUserAndGetToken(String email, String password) throws Exception {
         try {
             Boolean result = userDao.authenticateUserAndGetToken(email, password);
-            if(!result)
+            if (!result)
                 throw new Exception("wrong password");
             else {
                 String token = genAndSaveToken(email);
                 return token;
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -31,7 +31,7 @@ public class UserService {
     private String genAndSaveToken(String email) {
         String token = userDao.getTokenForEmail(email);
 
-        if(token != null)
+        if (token != null)
             return token;
         token = RandomStringUtils.getRandomString(10);
         userDao.saveTokenForEmail(email, token);
@@ -45,4 +45,15 @@ public class UserService {
             throw new Exception(e.getMessage());
         }
     }
-}
+
+    public Boolean validateToken(String email, String token) {
+        String tokenFromDb = userDao.getTokenForEmail(email);
+        if (tokenFromDb != null && tokenFromDb.equals(token))
+            return true;
+        else return false;
+    }
+
+    public ClientUser getUserForEmail(String email) {
+        return userDao.getUserForEmail(email);
+    }
+ }
