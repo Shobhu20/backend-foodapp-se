@@ -5,15 +5,15 @@ public class FoodCourt {
     private String foodCourtName;
     private String address;
     private String city;
-    private String openTime;
-    private String closeTime;
+    private String open_time;
+    private String close_time;
 
-    public FoodCourt(String foodCourtName, String address, String city, String openTime, String closeTime) {
+    public FoodCourt(String foodCourtName, String address, String city, String open_time, String close_time) {
         this.foodCourtName = foodCourtName;
         this.address = address;
         this.city = city;
-        this.openTime = openTime;
-        this.closeTime = closeTime;
+        this.open_time = open_time;
+        this.close_time = close_time;
     }
 
     public String getFoodCourtName() {
@@ -40,19 +40,19 @@ public class FoodCourt {
         this.city = city;
     }
 
-    public String getOpenTime() {
-        return openTime;
+    public String getOpen_time() {
+        return open_time;
     }
 
-    public void setOpenTime(String openTime) {
-        this.openTime = openTime;
+    public void setOpen_time(String open_time) {
+        this.open_time = open_time;
     }
 
-    public String getCloseTime() {
-        return closeTime;
+    public String getClose_time() {
+        return close_time;
     }
 
-    public void setCloseTime(String closeTime) {
-        this.closeTime = closeTime;
+    public void setClose_time(String close_time) {
+        this.close_time = close_time;
     }
 }
