@@ -46,6 +46,14 @@ public class UserService {
         }
     }
 
+    public void logout(String email, String token) throws Exception{
+        try {
+            userDao.logout(email,token);
+        } catch (Exception e) {
+            throw new  Exception(e.getMessage());
+        }
+    }
+
     public Boolean validateToken(String email, String token) {
         String tokenFromDb = userDao.getTokenForEmail(email);
         if (tokenFromDb != null && tokenFromDb.equals(token))

@@ -50,4 +50,22 @@ public class LoggedInUserController {
         }
     }
 
+    @RequestMapping(value = "/logout", method =  RequestMethod.POST)
+    public String userLogout(@RequestParam("email") String email, @RequestParam("token") String token) throws Exception{
+        Map<String, String> resultMap = new HashMap<>();
+
+        try{
+
+            userService.logout(email,token);
+            resultMap.put("status","successfully logged out");
+            return objectMapper.writeValueAsString(resultMap);
+        } catch (Exception e) {
+            resultMap.put("status","failed");
+            resultMap.put("reason",e.getMessage());
+            return objectMapper.writeValueAsString(resultMap);
+        }
+
+
+    }
+
 }

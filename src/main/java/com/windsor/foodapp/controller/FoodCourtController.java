@@ -30,9 +30,9 @@ public class FoodCourtController {
     public String getFoodCourt( @RequestParam("city") String city) throws Exception {
 
     Map<String, Object> resultMap = new HashMap<>();
-
-    List<FoodCourt> fcList=foodCourtService.getFoodCourtByCity(city);
     try {
+    List<FoodCourt> fcList=foodCourtService.getFoodCourtByCity(city);
+
         resultMap.put("status", "success");
         resultMap.put("fcList", (fcList));
         return objectMapper.writeValueAsString(resultMap);
