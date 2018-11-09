@@ -2,18 +2,29 @@ package com.windsor.foodapp.model;
 
 public class FoodCourt {
 
+
+    private int id;
     private String foodCourtName;
     private String address;
     private String city;
     private String open_time;
     private String close_time;
 
-    public FoodCourt(String foodCourtName, String address, String city, String open_time, String close_time) {
+    public FoodCourt(int id, String foodCourtName, String address, String city, String open_time, String close_time) {
+        this.id=id;
         this.foodCourtName = foodCourtName;
         this.address = address;
         this.city = city;
         this.open_time = open_time;
         this.close_time = close_time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFoodCourtName() {

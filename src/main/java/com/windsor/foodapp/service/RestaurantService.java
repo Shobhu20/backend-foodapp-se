@@ -14,7 +14,7 @@ public class RestaurantService {
     @Resource
     RestaurantDao restaurantDao;
 
-    public List<Restaurant> getRestaurantByFoodCourt(String fcName)  throws Exception{
-        return restaurantDao.getRestaurantByFoodCourt(fcName);
+    public List<Restaurant> getRestaurantByFoodCourt(int fc_id)  throws Exception{
+        return restaurantDao.getRestaurantByFoodCourt(fc_id);
     }
 }

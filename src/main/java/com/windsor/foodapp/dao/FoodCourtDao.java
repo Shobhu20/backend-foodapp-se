@@ -23,7 +23,7 @@ public class FoodCourtDao {
         if(stringObjectMap.isEmpty())
             throw new Exception("No Food Court found");
         for(Map<String, Object> result : stringObjectMap) {
-            FoodCourt fc = new FoodCourt(result.get("name").toString(), result.get("address").toString(), result.get("city").toString(), result.get("open_time").toString(), result.get("close_time").toString());
+            FoodCourt fc = new FoodCourt(Integer.parseInt(result.get("id").toString()),result.get("name").toString(), result.get("address").toString(), result.get("city").toString(), result.get("open_time").toString(), result.get("close_time").toString());
             foodCourtList.add(fc);
         }
         return foodCourtList;

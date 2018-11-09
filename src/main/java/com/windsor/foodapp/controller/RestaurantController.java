@@ -26,12 +26,12 @@ public class RestaurantController {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @RequestMapping("/Restaurant")
-    public String getRestaurant(@RequestParam("fcName") String fcName) throws Exception {
+    public String getRestaurant(@RequestParam("fc_id") int fc_id) throws Exception {
 
         Map<String,Object> resultMap = new HashMap<>();
 
         try {
-        List<Restaurant> restaurantList= restaurantService.getRestaurantByFoodCourt(fcName);
+        List<Restaurant> restaurantList= restaurantService.getRestaurantByFoodCourt(fc_id);
 
             resultMap.put("status","success");
             resultMap.put("restaurantList",restaurantList);
