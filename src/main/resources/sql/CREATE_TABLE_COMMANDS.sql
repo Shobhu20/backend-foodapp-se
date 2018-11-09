@@ -67,5 +67,6 @@ name varchar,
 order_id int references customer_order(id),
 restaurant_id int references restaurant(id),
 restaurant_name varchar,
-item_cost numeric(7,2)
+item_cost numeric(7,2),
+quantity int
 );
