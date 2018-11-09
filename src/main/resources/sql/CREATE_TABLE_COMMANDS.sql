@@ -25,9 +25,22 @@ token varchar not null,
 created_at timestamp
 );
 
+<<<<<<< HEAD
 create table restaurant(
 id serial primary key,
  name varchar not null,
  fc_id int references foodcourt(id),
  URL varchar)
  );
+=======
+
+create table FoodCourt(
+id serial primary key,
+name varchar unique,
+address varchar,
+city varchar,
+open_time varchar,
+close_time varchar
+);
+
+create index index_fc on foodcourt (city);
