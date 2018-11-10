@@ -2,14 +2,34 @@ package com.windsor.foodapp.model;
 
 public class Restaurant {
 
-    private String name;
     private int id;
-    private int fc_id;
+    private String name;
     private String iconUrl;
+    private int fc_id;
 
-    public Restaurant(String name, String iconUrl) {
+    public Restaurant(int id,String name, String iconUrl, int fc_id) {
+
+        this.id=id;
         this.name = name;
         this.iconUrl = iconUrl;
+        this.fc_id=fc_id;
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getIconUrl() {
@@ -20,28 +40,8 @@ public class Restaurant {
         this.iconUrl = iconUrl;
     }
 
-    public Restaurant(String name) {
-        name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public int getFc_id() {
         return fc_id;
-    }
-
-    public void setName(String name) {
-        name = name;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setFc_id(int fc_id) {

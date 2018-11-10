@@ -16,13 +16,13 @@ public class RestaurantDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<Restaurant> getRestaurantByFoodCourt(String fcName) throws Exception {
+    public List<Restaurant> getRestaurantByFoodCourt(int fc_id) throws Exception {
         List<Restaurant> restaurantList = new ArrayList<>();
-        List<Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select r.* from restaurant r inner join foodcourt fc on fc.id = r.fc_id where fc.name = ?", fcName);
+        List<Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select r.* from restaurant r inner join foodcourt fc on fc.id = r.fc_id where fc.id = ?", fc_id);
         if (stringObjectMap.isEmpty())
             throw new Exception("No Restaurant found");
         for (Map<String, Object> result : stringObjectMap) {
-            Restaurant restaurant = new Restaurant(result.get("name").toString(), result.get("URL").toString());
+            Restaurant restaurant = new Restaurant(Integer.parseInt(result.get("id").toString()),result.get("name").toString(), result.get("URL").toString(), Integer.parseInt(result.get("fc_id").toString()));
             restaurantList.add(restaurant);
         }
         return restaurantList;

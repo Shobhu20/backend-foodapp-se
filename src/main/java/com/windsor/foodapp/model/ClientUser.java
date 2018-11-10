@@ -4,6 +4,7 @@ import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 
 public class ClientUser {
 
+
     private String email;
     private String password;
     private String firstName;
@@ -12,6 +13,7 @@ public class ClientUser {
     private CLIENT_STATUS_ENUM status;
 
     public ClientUser(String email, String password, String firstName, String lastName, String phoneNumber, CLIENT_STATUS_ENUM status) {
+
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -19,6 +21,8 @@ public class ClientUser {
         this.phoneNumber = phoneNumber;
         this.status = status;
     }
+
+
 
     public String getEmail() {
         return email;

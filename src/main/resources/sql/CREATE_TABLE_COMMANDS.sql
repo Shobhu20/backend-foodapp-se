@@ -25,14 +25,12 @@ token varchar not null,
 created_at timestamp
 );
 
-<<<<<<< HEAD
 create table restaurant(
 id serial primary key,
  name varchar not null,
  fc_id int references foodcourt(id),
  URL varchar)
  );
-=======
 
 create table FoodCourt(
 id serial primary key,
@@ -44,3 +42,31 @@ close_time varchar
 );
 
 create index index_fc on foodcourt (city);
+
+
+create index index_fc on foodcourt (city);
+
+create table customer_order(
+id serial primary key,
+user_id int references AppUser(id),
+user_name varchar,
+total_cost numeric(7,2),
+order_time timestamp,
+foodcourt_id int references FoodCourt(id),
+foodcourt_name varchar,
+order_status int,
+prep_time int
+);
+
+create index index_uname on customer_order(user_name);
+
+
+create table ordered_items(
+id serial primary key,
+name varchar,
+order_id int references customer_order(id),
+restaurant_id int references restaurant(id),
+restaurant_name varchar,
+item_cost numeric(7,2),
+quantity int
+);

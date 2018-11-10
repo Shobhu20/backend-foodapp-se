@@ -10,22 +10,23 @@ public class FoodItem {
     private String name;
     private double cost;
     private String category;
-    private String timeToPrepareInMinutes;
-    private int r_id;
+    private int restaurantId;
+    private int foodCourtId;
+    private long timeToPrepareInMinutes;
+    private String restaurantName;
+    private String foodCourtName;
 
-
-
-
-    public FoodItem(int id, String name, double cost, String category, String timeToPrepareInMinutes, int r_id) {
+    public FoodItem(int id, String name, double cost, String category, int restaurantId, int foodCourtId, long timeToPrepareInMinutes, String restaurantName, String foodCourtName) {
         this.id = id;
         this.name = name;
         this.cost = cost;
         this.category = category;
+        this.restaurantId = restaurantId;
+        this.foodCourtId = foodCourtId;
         this.timeToPrepareInMinutes = timeToPrepareInMinutes;
-        this.r_id=r_id;
-
+        this.restaurantName = restaurantName;
+        this.foodCourtName = foodCourtName;
     }
-
 
     public int getId() {
         return id;
@@ -59,19 +60,136 @@ public class FoodItem {
         this.category = category;
     }
 
-    public String getTimeToPrepareInMinutes() {
+    public int getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public int getFoodCourtId() {
+        return foodCourtId;
+    }
+
+    public void setFoodCourtId(int foodCourtId) {
+        this.foodCourtId = foodCourtId;
+    }
+
+    public long getTimeToPrepareInMinutes() {
         return timeToPrepareInMinutes;
     }
 
-    public void setTimeToPrepareInMinutes(String timeToPrepareInMinutes) {
+    public void setTimeToPrepareInMinutes(long timeToPrepareInMinutes) {
         this.timeToPrepareInMinutes = timeToPrepareInMinutes;
     }
 
-    public int getR_id() {
-        return r_id;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setR_id(int r_id) {
-        this.r_id = r_id;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    public String getFoodCourtName() {
+        return foodCourtName;
+    }
+
+    public void setFoodCourtName(String foodCourtName) {
+        this.foodCourtName = foodCourtName;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
