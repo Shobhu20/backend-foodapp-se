@@ -22,7 +22,7 @@ public class RestaurantDao {
         if (stringObjectMap.isEmpty())
             throw new Exception("No Restaurant found");
         for (Map<String, Object> result : stringObjectMap) {
-            Restaurant restaurant = new Restaurant(Integer.parseInt(result.get("id").toString()),result.get("name").toString(), result.get("URL").toString());
+            Restaurant restaurant = new Restaurant(Integer.parseInt(result.get("id").toString()),result.get("name").toString(), result.get("URL").toString(), Integer.parseInt(result.get("fc_id").toString()));
             restaurantList.add(restaurant);
         }
         return restaurantList;
