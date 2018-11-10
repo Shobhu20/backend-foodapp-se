@@ -44,7 +44,7 @@ public class UserController {
         Map<String, String> resultMap = new HashMap<>();
 
 
-        ClientUser clientUser = new ClientUser(email, password, firstName, lastName, phoneNumber, CLIENT_STATUS_ENUM.ACTIVE);
+        ClientUser clientUser = new ClientUser(0,email, password, firstName, lastName, phoneNumber, CLIENT_STATUS_ENUM.ACTIVE);
         try {
             validateUserFields(clientUser);
         } catch (Exception e) {

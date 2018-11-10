@@ -22,16 +22,7 @@ public class FoodItemDao {
         if (stringObjectMap.isEmpty())
             throw new Exception("No such Food Item found");
         for (Map<String, Object> result : stringObjectMap) {
-            FoodItem foodItem = new FoodItem(Integer.parseInt(result.get("id").toString()),
-                    result.get("name").toString(),
-                    Double.parseDouble(result.get("cost").toString()),
-                    result.get("category").toString(),
-                    Integer.parseInt(result.get("r_id").toString()),
-                            Integer.parseInt(result.get("fc_id").toString()),
-
-                            Long.parseLong(result.get("preptime").toString()),
-                            result.get("restaurant_name").toString(),
-                            result.get("foodcourt_name").toString());
+            FoodItem foodItem = convertSQLResultToFoodItem(result);
             foodItemList.add(foodItem);
         }
         return foodItemList;
@@ -50,7 +41,9 @@ public class FoodItemDao {
     }
 
     private FoodItem convertSQLResultToFoodItem(Map<String, Object> result) {
-        //todo : convert to item
-        return null;
+        FoodItem foodItem = new FoodItem(Integer.parseInt(result.get("id").toString()), result.get("name").toString(), Double.parseDouble(result.get("cost").toString()),
+                result.get("category").toString(), Integer.parseInt(result.get("restaurantid").toString()), Integer.parseInt(result.get("foodcourtid").toString()),
+                Integer.parseInt(result.get("timetoprepareinminutes").toString()), result.get("restaurantname").toString(), result.get("foodcourtname").toString());
+        return foodItem;
     }
 }

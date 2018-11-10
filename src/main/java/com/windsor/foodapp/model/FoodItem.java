@@ -12,11 +12,11 @@ public class FoodItem {
     private String category;
     private int restaurantId;
     private int foodCourtId;
-    private long timeToPrepareInMinutes;
+    private int timeToPrepareInMinutes;
     private String restaurantName;
     private String foodCourtName;
 
-    public FoodItem(int id, String name, double cost, String category, int restaurantId, int foodCourtId, long timeToPrepareInMinutes, String restaurantName, String foodCourtName) {
+    public FoodItem(int id, String name, double cost, String category, int restaurantId, int foodCourtId, int timeToPrepareInMinutes, String restaurantName, String foodCourtName) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -76,11 +76,11 @@ public class FoodItem {
         this.foodCourtId = foodCourtId;
     }
 
-    public long getTimeToPrepareInMinutes() {
+    public int getTimeToPrepareInMinutes() {
         return timeToPrepareInMinutes;
     }
 
-    public void setTimeToPrepareInMinutes(long timeToPrepareInMinutes) {
+    public void setTimeToPrepareInMinutes(int timeToPrepareInMinutes) {
         this.timeToPrepareInMinutes = timeToPrepareInMinutes;
     }
 

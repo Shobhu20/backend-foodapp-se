@@ -3,6 +3,7 @@ package com.windsor.foodapp.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.windsor.foodapp.model.ClientUser;
+import com.windsor.foodapp.model.CustomerOrder;
 import com.windsor.foodapp.service.OrderService;
 import com.windsor.foodapp.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -72,15 +73,24 @@ public class LoggedInUserController {
     @RequestMapping(value="/placeOrder", method = RequestMethod.POST)
     public String placeOrder(@RequestParam("email") String email, @RequestParam("token") String token,
                              @RequestBody Map<Integer, Integer> foodIdToQuantityMapJson) throws IOException {
+        Map<String, Object> resultMap = new HashMap<>();
+
         //0. get user name and reqd info for creating user
         // 1. get info of items from food item ...store it in a list of order items....also evaluate order object fields like cost
         //objectMapper.readValue(foodIdToQuantityMapJson, new TypeReference<Map<String, String>>(){});
-        orderService.placeOrder(email, foodIdToQuantityMapJson);
-
+        try {
+            CustomerOrder customerOrder = orderService.placeOrder(email, foodIdToQuantityMapJson);
+            resultMap.put("customer order", customerOrder);
+            resultMap.put("status", "success");
+            return objectMapper.writeValueAsString(resultMap);
+        } catch (Exception e) {
+            resultMap.put("status", "failed");
+            resultMap.put("reason", e.getMessage());
+            return objectMapper.writeValueAsString(resultMap);
+        }
         //2. save order items
         //3. save order
         //4. return success
-        return "yolo";
     }
 
 }
