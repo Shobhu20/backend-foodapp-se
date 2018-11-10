@@ -3,7 +3,9 @@ package com.windsor.foodapp.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
+import com.windsor.foodapp.model.FoodItem;
 import com.windsor.foodapp.model.Restaurant;
+import com.windsor.foodapp.service.FoodItemListService;
 import com.windsor.foodapp.service.RestaurantService;
 import com.windsor.foodapp.service.UserService;
 import com.windsor.foodapp.util.ValidationUtils;
@@ -20,6 +22,9 @@ public class RestaurantController {
 
     @Resource
     RestaurantService restaurantService;
+
+    @Resource
+    FoodItemListService foodItemListService;
 
 
 
@@ -45,6 +50,26 @@ public class RestaurantController {
 
     }
 
+    @RequestMapping ("/FoodMenu")
+    public String getMenu(@RequestParam("r_name") String r_name) throws Exception {
+        Map<String,Object> resultMap = new HashMap<>();
+
+        try {
+            List<FoodItem> foodItemList= foodItemListService.getFoodItemByRestaurant(r_name);
+
+            resultMap.put("status","success");
+            resultMap.put("rList",foodItemList);
+            return objectMapper.writeValueAsString(resultMap);
+        }
+        catch(Exception e) {
+            resultMap.put("status","failed");
+            resultMap.put("reason",e.getMessage());
+            return objectMapper.writeValueAsString(resultMap);
+        }
+
+    }
+    }
 
 
-}
+
+
