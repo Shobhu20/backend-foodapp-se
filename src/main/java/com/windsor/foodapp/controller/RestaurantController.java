@@ -1,14 +1,10 @@
 package com.windsor.foodapp.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 import com.windsor.foodapp.model.FoodItem;
 import com.windsor.foodapp.model.Restaurant;
-import com.windsor.foodapp.service.FoodItemListService;
+import com.windsor.foodapp.service.FoodItemService;
 import com.windsor.foodapp.service.RestaurantService;
-import com.windsor.foodapp.service.UserService;
-import com.windsor.foodapp.util.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,7 +20,7 @@ public class RestaurantController {
     RestaurantService restaurantService;
 
     @Resource
-    FoodItemListService foodItemListService;
+    FoodItemService foodItemListService;
 
 
 
@@ -51,14 +47,14 @@ public class RestaurantController {
     }
 
     @RequestMapping ("/FoodMenu")
-    public String getMenu(@RequestParam("r_name") String r_name) throws Exception {
+    public String getMenu(@RequestParam("restaurantName") String restaurantName) throws Exception {
         Map<String,Object> resultMap = new HashMap<>();
 
         try {
-            List<FoodItem> foodItemList= foodItemListService.getFoodItemByRestaurant(r_name);
+            Map<String, List<FoodItem>> foodItemMap= foodItemListService.getFoodItemByRestaurant(restaurantName);
 
             resultMap.put("status","success");
-            resultMap.put("rList",foodItemList);
+            resultMap.put("rList",foodItemMap);
             return objectMapper.writeValueAsString(resultMap);
         }
         catch(Exception e) {

@@ -16,16 +16,35 @@ public class FoodItemDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<FoodItem> getFoodItemByRestaurant(String r_name) throws Exception {
+    public Map<String, List<FoodItem>> getFoodItemByRestaurant(String restaurantName) throws Exception {
         List<FoodItem> foodItemList = new ArrayList<>();
-        List<Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select f.* from fooditem f inner join restaurant r on r.id = f.id where r_name= ?", r_name);
+        List<Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select f.* from fooditem f inner join restaurant r on r.id = f.id where restaurantName= ?", restaurantName);
         if (stringObjectMap.isEmpty())
             throw new Exception("No such Food Item found");
         for (Map<String, Object> result : stringObjectMap) {
             FoodItem foodItem = convertSQLResultToFoodItem(result);
             foodItemList.add(foodItem);
         }
-        return foodItemList;
+
+        Map<String,List<FoodItem>> categoryToFoodItemMap = new HashMap<>();
+
+        for(FoodItem foodItem : foodItemList) {
+            if(categoryToFoodItemMap.get(foodItem.getCategory()) == null) {
+                List<FoodItem> foodItems = new ArrayList<>();
+                foodItems.add(foodItem);
+                categoryToFoodItemMap.put(foodItem.getCategory(), foodItems);
+
+            } else {List<FoodItem> foodItems = categoryToFoodItemMap.get(foodItem.getCategory());
+            foodItems.add(foodItem);
+            categoryToFoodItemMap.put(foodItem.getCategory(), foodItems);
+            }
+
+        }
+
+
+
+
+        return categoryToFoodItemMap;
 
     }
 
