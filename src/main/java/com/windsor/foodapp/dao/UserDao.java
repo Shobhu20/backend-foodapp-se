@@ -1,5 +1,6 @@
 package com.windsor.foodapp.dao;
 
+import ch.qos.logback.core.net.server.Client;
 import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 import com.windsor.foodapp.model.ClientUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,14 @@ public class UserDao {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-    public Boolean authenticateUserAndGetToken(String email, String password) throws Exception {
-        List<Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("SELECT * FROM APPUSER WHERE EMAIL_ID = ?", email);
-        if(stringObjectMap.isEmpty())
+    public ClientUser authenticateUserAndGetToken(String email, String password) throws Exception {
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList("SELECT * FROM APPUSER WHERE EMAIL_ID = ?", email);
+        if(resultList.isEmpty())
             throw new Exception("user not found");
-        if(stringObjectMap.get(0).get("password").equals(password))
-            return true;
-        return false;
+        Map<String, Object>  result = resultList.get(0);
+        return new ClientUser(Integer.parseInt(result.get("id").toString()),result.get("email_id").toString() ,result.get("password").toString(), result.get("first_name").toString(),result.get("last_name").toString(),result.get("phone_number").toString(), CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(result.get("user_status").toString())));
+
+
     }
 
     public void registerUser(ClientUser clientUser) throws Exception {
@@ -44,6 +46,14 @@ public class UserDao {
         if(maps.isEmpty())
             return null;
         return maps.get(0).get("token").toString();
+    }
+
+    public String getNameForEmail(String email){
+        String sql= "select first_name from authtoken where email =?";
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, email);
+        if(maps.isEmpty())
+            return null;
+        return maps.get(0).get("first_name").toString();
     }
 
     public void saveTokenForEmail(String email, String token) {

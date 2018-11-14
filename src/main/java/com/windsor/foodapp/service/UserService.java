@@ -6,6 +6,10 @@ import com.windsor.foodapp.util.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -13,19 +17,30 @@ public class UserService {
     @Resource
     UserDao userDao;
 
-    public String authenticateUserAndGetToken(String email, String password) throws Exception {
+    public Map<String, Object> authenticateUserAndGetToken(String email, String password) throws Exception {
         try {
-            Boolean result = userDao.authenticateUserAndGetToken(email, password);
-            if (!result)
+            ClientUser clientUser = userDao.authenticateUserAndGetToken(email, password);
+            if (!clientUser.getPassword().equals(password))
                 throw new Exception("wrong password");
             else {
+                clientUser.setPassword("N/A");
+                Map<String, Object> map = new HashMap<>();
+                //List<String> details= new ArrayList<>();
                 String token = genAndSaveToken(email);
-                return token;
+                map.put("token", token);
+                map.put("user", clientUser);
+
+                return map;
             }
 
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+    private String saveName(String email){
+        String name = userDao.getNameForEmail(email);
+        return name;
     }
 
     private String genAndSaveToken(String email) {

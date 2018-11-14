@@ -24,12 +24,13 @@ public class UserController {
     //todo : add logging
     @RequestMapping(value="/signIn", method = RequestMethod.POST)
     public String getHome(@RequestParam("email") String email, @RequestParam("password") String password) throws JsonProcessingException {
-        Map<String, String> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
 
         try {
-            String token = userService.authenticateUserAndGetToken(email, password);
+            Map<String,Object> userDetail = new HashMap<>();
+            userDetail = userService.authenticateUserAndGetToken(email,password);
             resultMap.put("status", "success");
-            resultMap.put("token", token);
+            resultMap.put("token", userDetail);
             return objectMapper.writeValueAsString(resultMap);
         } catch (Exception e) {
             resultMap.put("status", "failed");
