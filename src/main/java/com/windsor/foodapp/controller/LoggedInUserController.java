@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.model.CustomerOrder;
+import com.windsor.foodapp.model.OrderDetail;
 import com.windsor.foodapp.service.OrderService;
 import com.windsor.foodapp.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //
@@ -91,6 +93,16 @@ public class LoggedInUserController {
         //2. save order items
         //3. save order
         //4. return success
+    }
+
+    @RequestMapping(value="/getOrdersForUser", method = RequestMethod.POST)
+    public String getOdersForUser(@RequestParam("email") String email, @RequestParam("token") String token) throws JsonProcessingException {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        List<OrderDetail> customerOrders = orderService.getOrdersForCustomer(email);//
+
+        return objectMapper.writeValueAsString(resultMap);
+
     }
 
 }
