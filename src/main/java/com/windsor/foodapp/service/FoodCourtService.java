@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class FoodCourtService {
@@ -14,7 +15,7 @@ public class FoodCourtService {
     @Resource
     FoodCourtDao foodCourtDao;
 
-    public List<FoodCourt> getFoodCourtByCity(String city) throws  Exception{
+    public Map<String, Object> getFoodCourtByCity(String city) throws  Exception{
 
         return  foodCourtDao.getFoodCourtByCity(city);
     }
