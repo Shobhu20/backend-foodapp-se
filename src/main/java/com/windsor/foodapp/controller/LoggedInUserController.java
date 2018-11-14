@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.model.CustomerOrder;
 import com.windsor.foodapp.model.OrderDetail;
-
+import com.windsor.foodapp.service.OrderService;
 import com.windsor.foodapp.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -26,8 +26,8 @@ public class LoggedInUserController {
     @Resource
     UserService userService;
 
-    //@Resource
-    //OrderService orderService;
+    @Resource
+    OrderService orderService;
 
     @RequestMapping(value = "/getUserInformation", method = RequestMethod.POST)
     public String getUserInfo(@RequestParam("email") String email, @RequestParam("token") String token) throws JsonProcessingException {
@@ -72,34 +72,34 @@ public class LoggedInUserController {
         }
     }
 
-//    @RequestMapping(value="/placeOrder", method = RequestMethod.POST)
-//    public String placeOrder(@RequestParam("email") String email, @RequestParam("token") String token,
-//                             @RequestBody Map<Integer, Integer> foodIdToQuantityMapJson) throws IOException {
-//        Map<String, Object> resultMap = new HashMap<>();
-//
-//        //0. get user name and reqd info for creating user
-//        // 1. get info of items from food item ...store it in a list of order items....also evaluate order object fields like cost
-//        //objectMapper.readValue(foodIdToQuantityMapJson, new TypeReference<Map<String, String>>(){});
-//        try {
-//            CustomerOrder customerOrder = orderService.placeOrder(email, foodIdToQuantityMapJson);
-//            resultMap.put("customer order", customerOrder);
-//            resultMap.put("status", "success");
-//            return objectMapper.writeValueAsString(resultMap);
-//        } catch (Exception e) {
-//            resultMap.put("status", "failed");
-//            resultMap.put("reason", e.getMessage());
-//            return objectMapper.writeValueAsString(resultMap);
-//        }
-//        //2. save order items
-//        //3. save order
-//        //4. return success
-//    }
+    @RequestMapping(value="/placeOrder", method = RequestMethod.POST)
+    public String placeOrder(@RequestParam("email") String email, @RequestParam("token") String token,
+                             @RequestBody Map<Integer, Integer> foodIdToQuantityMapJson) throws IOException {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        //0. get user name and reqd info for creating user
+        // 1. get info of items from food item ...store it in a list of order items....also evaluate order object fields like cost
+        //objectMapper.readValue(foodIdToQuantityMapJson, new TypeReference<Map<String, String>>(){});
+        try {
+            CustomerOrder customerOrder = orderService.placeOrder(email, foodIdToQuantityMapJson);
+            resultMap.put("customer order", customerOrder);
+            resultMap.put("status", "success");
+            return objectMapper.writeValueAsString(resultMap);
+        } catch (Exception e) {
+            resultMap.put("status", "failed");
+            resultMap.put("reason", e.getMessage());
+            return objectMapper.writeValueAsString(resultMap);
+        }
+        //2. save order items
+        //3. save order
+        //4. return success
+    }
 //
 //    @RequestMapping(value="/getOrdersForUser", method = RequestMethod.POST)
 //    public String getOdersForUser(@RequestParam("email") String email, @RequestParam("token") String token) throws JsonProcessingException {
 //        Map<String, Object> resultMap = new HashMap<>();
 //
-//        List<OrderDetail> customerOrders = orderService.getOrdersForCustomer(email);//
+//        List<OrderDetail> customerOrders = orderService.getOrdersForCustomer(email);
 //
 //        return objectMapper.writeValueAsString(resultMap);
 //
