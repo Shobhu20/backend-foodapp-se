@@ -2,19 +2,16 @@ package com.windsor.foodapp.dao;
 
 import com.windsor.foodapp.enums.ORDER_STATUS_ENUM;
 import com.windsor.foodapp.model.CustomerOrder;
+import com.windsor.foodapp.model.OrderDetail;
 import com.windsor.foodapp.model.OrderItem;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class OrderDao {
@@ -60,5 +57,30 @@ public class OrderDao {
 
 
 
+    }
+
+    public List<OrderDetail> getOrdersForCustomer(String email) {
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        String sql=;
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, email);
+        Map<Integer, OrderDetail> mapOfIdToResult= new HashMap<>();
+        for(Map<String, Object> map : maps) {
+            int id = Integer.parseInt(map.get("id").toString());
+            if (mapOfIdToResult.containsKey(id)) {
+                OrderDetail orderDetail = mapOfIdToResult.get(id);
+                List<OrderItem> orderItemList = orderDetail.getOrderItemList();
+                OrderItem orderItem = new OrderItem();
+                orderItemList.add(orderItem);
+                orderDetail.setOrderItemList(orderItemList);
+            }
+            else {
+                //create new order detail
+                CustomerOrder order = new CustomerOrder();
+                List<OrderItem> orderItems = new ArrayList<>();
+                orderItems.add(new OrderItem());
+                OrderDetail orderDetail = new OrderDetail(order, orderItems);
+            }
+        }
+        return orderDetails;
     }
 }

@@ -4,10 +4,7 @@ import com.windsor.foodapp.dao.FoodItemDao;
 import com.windsor.foodapp.dao.OrderDao;
 import com.windsor.foodapp.dao.UserDao;
 import com.windsor.foodapp.enums.ORDER_STATUS_ENUM;
-import com.windsor.foodapp.model.ClientUser;
-import com.windsor.foodapp.model.CustomerOrder;
-import com.windsor.foodapp.model.FoodItem;
-import com.windsor.foodapp.model.OrderItem;
+import com.windsor.foodapp.model.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -64,5 +61,9 @@ public class OrderService {
         }
         orderDao.createOrderItems(orderItems);
         return customerOrder;
+    }
+
+    public List<OrderDetail> getOrdersForCustomer(String email) {
+        return orderDao.getOrdersForCustomer(email);
     }
 }
