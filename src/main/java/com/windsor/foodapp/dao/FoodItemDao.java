@@ -18,7 +18,7 @@ public class FoodItemDao {
 
     public Map<String, List<FoodItem>> getFoodItemByRestaurant(String restaurantName) throws Exception {
         List<FoodItem> foodItemList = new ArrayList<>();
-        List<Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select f.* from fooditem f inner join restaurant r on r.id = f.id where restaurantName= ?", restaurantName);
+        List<Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select f.* from fooditem f inner join restaurant r on r.id = f.restaurantid where restaurantName= ?", restaurantName);
         if (stringObjectMap.isEmpty())
             throw new Exception("No such Food Item found");
         for (Map<String, Object> result : stringObjectMap) {
