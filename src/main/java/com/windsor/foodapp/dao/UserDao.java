@@ -17,12 +17,12 @@ public class UserDao {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-    public ClientUser authenticateUserAndGetToken(String email, String password) throws Exception {
+    public Map<String,Object> authenticateUserAndGetToken(String email, String password) throws Exception {
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList("SELECT * FROM APPUSER WHERE EMAIL_ID = ?", email);
         if(resultList.isEmpty())
             throw new Exception("user not found");
         Map<String, Object>  result = resultList.get(0);
-        return new ClientUser(Integer.parseInt(result.get("id").toString()),result.get("email_id").toString() ,result.get("password").toString(), result.get("first_name").toString(),result.get("last_name").toString(),result.get("phone_number").toString(), CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(result.get("user_status").toString())));
+        return  result;
 
 
     }

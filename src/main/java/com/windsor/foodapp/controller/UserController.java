@@ -30,7 +30,7 @@ public class UserController {
             Map<String,Object> userDetail = new HashMap<>();
             userDetail = userService.authenticateUserAndGetToken(email,password);
             resultMap.put("status", "success");
-            resultMap.put("token", userDetail);
+            resultMap.put("user", userDetail);
             return objectMapper.writeValueAsString(resultMap);
         } catch (Exception e) {
             resultMap.put("status", "failed");

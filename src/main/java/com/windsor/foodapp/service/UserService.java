@@ -19,18 +19,17 @@ public class UserService {
 
     public Map<String, Object> authenticateUserAndGetToken(String email, String password) throws Exception {
         try {
-            ClientUser clientUser = userDao.authenticateUserAndGetToken(email, password);
-            if (!clientUser.getPassword().equals(password))
+            Map<String,Object> user = new HashMap<>();
+            user = userDao.authenticateUserAndGetToken(email, password);
+            if (!user.get("password").toString().equals(password))
                 throw new Exception("wrong password");
             else {
-                clientUser.setPassword("N/A");
-                Map<String, Object> map = new HashMap<>();
-                //List<String> details= new ArrayList<>();
-                String token = genAndSaveToken(email);
-                map.put("token", token);
-                map.put("user", clientUser);
 
-                return map;
+                user.replace("password","N/A");
+                String token = genAndSaveToken(email);
+                user.put("token", token);
+
+                return user;
             }
 
         } catch (Exception e) {
