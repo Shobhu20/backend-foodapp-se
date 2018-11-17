@@ -13,7 +13,6 @@ public class ClientUser {
     private CLIENT_STATUS_ENUM status;
 
     public ClientUser(int id, String email, String password, String firstName, String lastName, String phoneNumber, CLIENT_STATUS_ENUM status) {
-
         this.id = id;
         this.email = email;
         this.password = password;

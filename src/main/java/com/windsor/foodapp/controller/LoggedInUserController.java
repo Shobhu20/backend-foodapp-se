@@ -94,15 +94,15 @@ public class LoggedInUserController {
         //3. save order
         //4. return success
     }
-//
-//    @RequestMapping(value="/getOrdersForUser", method = RequestMethod.POST)
-//    public String getOdersForUser(@RequestParam("email") String email, @RequestParam("token") String token) throws JsonProcessingException {
-//        Map<String, Object> resultMap = new HashMap<>();
-//
-//        List<OrderDetail> customerOrders = orderService.getOrdersForCustomer(email);
-//
-//        return objectMapper.writeValueAsString(resultMap);
-//
-//    }
+
+    @RequestMapping(value="/getOrdersForUser", method = RequestMethod.POST)
+    public String getOdersForUser(@RequestParam("email") String email, @RequestParam("token") String token) throws JsonProcessingException {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        List<OrderDetail> customerOrders = orderService.getOrdersForCustomer(email);
+
+        return objectMapper.writeValueAsString(resultMap);
+
+    }
 
 }
