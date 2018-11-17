@@ -47,11 +47,11 @@ public class RestaurantController {
     }
 
     @RequestMapping ("/FoodMenu")
-    public String getMenu(@RequestParam("restaurantName") String restaurantName) throws Exception {
+    public String getMenu(@RequestParam("restaurantId") int restaurantId) throws Exception {
         Map<String,Object> resultMap = new HashMap<>();
 
         try {
-            Map<String, List<FoodItem>> foodItemMap= foodItemListService.getFoodItemByRestaurant(restaurantName);
+            Map<String, List<FoodItem>> foodItemMap= foodItemListService.getFoodItemByRestaurant(restaurantId);
 
             resultMap.put("status","success");
             resultMap.put("ItemList",foodItemMap);

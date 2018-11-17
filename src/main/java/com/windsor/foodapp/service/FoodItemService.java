@@ -15,8 +15,8 @@ public class FoodItemService {
     @Resource
     FoodItemDao foodItemDao;
 
-    public Map<String, List<FoodItem>> getFoodItemByRestaurant(String r_name) throws Exception {
-        return foodItemDao.getFoodItemByRestaurant(r_name);
+    public Map<String, List<FoodItem>> getFoodItemByRestaurant(int r_id) throws Exception {
+        return foodItemDao.getFoodItemByRestaurant(r_id);
 
     }
 
