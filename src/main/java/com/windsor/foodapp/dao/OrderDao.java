@@ -61,9 +61,8 @@ public class OrderDao {
     }
 
     public List<OrderDetail> getOrdersForParameters(String email, Integer restaurantId) {
-        List<OrderDetail> orderDetails = new ArrayList<>();
-        String sql = null;
-        List<Map<String, Object>> maps = null;
+        String sql;
+        List<Map<String, Object>> maps;
         if (restaurantId == null){
             sql = "select co.*,ap.email_id,it.id as order_item_id,it.name, it.order_id,it.restaurant_id,it.item_cost, it.quantity,it.restaurant_name " +
                     "from appuser ap  inner join  customer_order co on ap.id=co.user_id " +
@@ -102,33 +101,6 @@ public class OrderDao {
         }
         return converMapToList(mapOfIdToResult);
     }
-<<<<<<< HEAD
-//
-//    public List<OrderDetail> getOrdersForCustomer(String email) {
-//        List<OrderDetail> orderDetails = new ArrayList<>();
-//        String sql="select co.*,ap.email_id,it.* from appuser ap  inner join  customer_order co on ap.id=co.user_id inner join ordered_items it on it.order_id = co.id where ap.email_id = ?";
-//        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, email);
-//        Map<Integer, OrderDetail> mapOfIdToResult= new HashMap<>();
-//        for(Map<String, Object> map : maps) {
-//            int id = Integer.parseInt(map.get("id").toString());
-//            if (mapOfIdToResult.containsKey(id)) {
-//                OrderDetail orderDetail = mapOfIdToResult.get(id);
-//                List<OrderItem> orderItemList = orderDetail.getOrderItemList();
-//                OrderItem orderItem = new OrderItem();
-//                orderItemList.add(orderItem);
-//                orderDetail.setOrderItemList(orderItemList);
-//            }
-//            else {
-//                //create new order detail
-//                CustomerOrder order = new CustomerOrder();
-//                List<OrderItem> orderItems = new ArrayList<>();
-//                orderItems.add(new OrderItem());
-//                OrderDetail orderDetail = new OrderDetail(order, orderItems);
-//            }
-//        }
-//        return orderDetails;
-//    }
-=======
 
     private List<OrderDetail> converMapToList(Map<Integer, OrderDetail> mapOfIdToResult) {
         List<OrderDetail> orderDetailList = new ArrayList<>();
@@ -137,5 +109,4 @@ public class OrderDao {
         }
         return orderDetailList;
     }
->>>>>>> 14c6dbc7387a201ad507527fd79c3db2e8bdfaa5
 }
