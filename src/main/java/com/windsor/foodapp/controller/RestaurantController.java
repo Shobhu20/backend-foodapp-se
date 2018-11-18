@@ -52,7 +52,6 @@ public class RestaurantController {
 
         try {
             Map<String, List<FoodItem>> foodItemMap= foodItemListService.getFoodItemByRestaurant(restaurantId);
-
             resultMap.put("status","success");
             resultMap.put("ItemList",foodItemMap);
             return objectMapper.writeValueAsString(resultMap);
