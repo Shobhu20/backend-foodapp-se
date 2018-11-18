@@ -63,7 +63,7 @@ public class OrderService {
         return customerOrder;
     }
 
-//    public List<OrderDetail> getOrdersForCustomer(String email) {
-//        return orderDao.getOrdersForCustomer(email);
-//    }
+    public List<OrderDetail> getOrdersForParameters(String email, Integer restaurantId) {
+        return orderDao.getOrdersForParameters(email, restaurantId);
+    }
 }

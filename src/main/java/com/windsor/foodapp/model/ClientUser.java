@@ -14,8 +14,12 @@ public class ClientUser {
     private CLIENT_STATUS_ENUM status;
     private CLIENT_ROLE role;
 
+<<<<<<< HEAD
     public ClientUser(int id, String email, String password, String firstName, String lastName, String phoneNumber, CLIENT_STATUS_ENUM status, CLIENT_ROLE role) {
 
+=======
+    public ClientUser(int id, String email, String password, String firstName, String lastName, String phoneNumber, CLIENT_STATUS_ENUM status) {
+>>>>>>> 14c6dbc7387a201ad507527fd79c3db2e8bdfaa5
         this.id = id;
         this.email = email;
         this.password = password;

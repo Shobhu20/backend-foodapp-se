@@ -8,7 +8,6 @@ import com.windsor.foodapp.model.OrderDetail;
 import com.windsor.foodapp.service.OrderService;
 import com.windsor.foodapp.service.UserService;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -94,15 +93,22 @@ public class LoggedInUserController {
         //3. save order
         //4. return success
     }
-//
-//    @RequestMapping(value="/getOrdersForUser", method = RequestMethod.POST)
-//    public String getOdersForUser(@RequestParam("email") String email, @RequestParam("token") String token) throws JsonProcessingException {
-//        Map<String, Object> resultMap = new HashMap<>();
-//
-//        List<OrderDetail> customerOrders = orderService.getOrdersForCustomer(email);
-//
-//        return objectMapper.writeValueAsString(resultMap);
-//
-//    }
+
+    @RequestMapping(value="/getOrdersForUser", method = RequestMethod.POST)
+    public String getOdersForUser(@RequestParam("email") String email, @RequestParam("token") String token, @RequestParam(value = "restaurantId", required = false) Integer restaurantId) throws JsonProcessingException {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try{
+        List<OrderDetail> customerOrders = orderService.getOrdersForParameters(email, restaurantId);
+        resultMap.put("OrderList", customerOrders);
+        resultMap.put("status", "success");
+        }
+        catch (Exception e) {
+            resultMap.put("status", "failed");
+            resultMap.put("errorMessage", e.getMessage());
+        } finally {
+            return objectMapper.writeValueAsString(resultMap);
+        }
+    }
 
 }
