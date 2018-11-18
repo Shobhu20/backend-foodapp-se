@@ -73,14 +73,28 @@ public class LoggedInUserController {
 
     @RequestMapping(value="/placeOrder", method = RequestMethod.POST)
     public String placeOrder(@RequestParam("email") String email, @RequestParam("token") String token,
-                             @RequestBody Map<Integer, Integer> foodIdToQuantityMapJson) throws IOException {
+                             @RequestParam("foodItemIds") String foodItemIdsCsv,
+                             @RequestParam("quantity") String orderQuantityCsv) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
+
+
 
         //0. get user name and reqd info for creating user
         // 1. get info of items from food item ...store it in a list of order items....also evaluate order object fields like cost
         //objectMapper.readValue(foodIdToQuantityMapJson, new TypeReference<Map<String, String>>(){});
         try {
-            CustomerOrder customerOrder = orderService.placeOrder(email, foodIdToQuantityMapJson);
+            String[] orderIds = foodItemIdsCsv.split(",");
+            String[] orderQuantity = orderQuantityCsv.split(",");
+            if(orderIds.length != orderQuantity.length)
+                throw new Exception("please provide same number of items and quantity");
+            Map<Integer,Integer> foodIdToQuantityMap = new HashMap<>();
+            for(int i = 0; i<orderIds.length; i++) {
+                try {
+                foodIdToQuantityMap.put(Integer.parseInt(orderIds[i]), Integer.parseInt(orderQuantity[i])); } catch (Exception e) {
+                    throw new Exception("please provide number in id and quantity");
+                }
+            }
+            CustomerOrder customerOrder = orderService.placeOrder(email, foodIdToQuantityMap);
             resultMap.put("customer order", customerOrder);
             resultMap.put("status", "success");
             return objectMapper.writeValueAsString(resultMap);
