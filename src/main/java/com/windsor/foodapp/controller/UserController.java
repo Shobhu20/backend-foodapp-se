@@ -2,6 +2,7 @@ package com.windsor.foodapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.windsor.foodapp.enums.CLIENT_ROLE;
 import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.service.UserService;
@@ -45,7 +46,7 @@ public class UserController {
         Map<String, String> resultMap = new HashMap<>();
 
 
-        ClientUser clientUser = new ClientUser(0,email, password, firstName, lastName, phoneNumber, CLIENT_STATUS_ENUM.ACTIVE);
+        ClientUser clientUser = new ClientUser(0,email, password, firstName, lastName, phoneNumber, CLIENT_STATUS_ENUM.ACTIVE, CLIENT_ROLE.USER);
         try {
             validateUserFields(clientUser);
         } catch (Exception e) {

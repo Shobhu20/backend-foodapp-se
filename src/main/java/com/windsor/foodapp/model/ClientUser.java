@@ -1,5 +1,6 @@
 package com.windsor.foodapp.model;
 
+import com.windsor.foodapp.enums.CLIENT_ROLE;
 import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 
 public class ClientUser {
@@ -11,8 +12,9 @@ public class ClientUser {
     private String lastName;
     private String phoneNumber;
     private CLIENT_STATUS_ENUM status;
+    private CLIENT_ROLE role;
 
-    public ClientUser(int id, String email, String password, String firstName, String lastName, String phoneNumber, CLIENT_STATUS_ENUM status) {
+    public ClientUser(int id, String email, String password, String firstName, String lastName, String phoneNumber, CLIENT_STATUS_ENUM status, CLIENT_ROLE role) {
 
         this.id = id;
         this.email = email;
@@ -21,6 +23,7 @@ public class ClientUser {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.status = status;
+        this.role = role;
     }
 
     public int getId() {
@@ -77,5 +80,13 @@ public class ClientUser {
 
     public void setStatus(CLIENT_STATUS_ENUM status) {
         this.status = status;
+    }
+
+    public CLIENT_ROLE getRole() {
+        return role;
+    }
+
+    public void setRole(CLIENT_ROLE role) {
+        this.role = role;
     }
 }

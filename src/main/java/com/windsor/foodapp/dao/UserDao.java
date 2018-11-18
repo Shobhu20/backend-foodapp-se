@@ -1,6 +1,7 @@
 package com.windsor.foodapp.dao;
 
 import ch.qos.logback.core.net.server.Client;
+import com.windsor.foodapp.enums.CLIENT_ROLE;
 import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 import com.windsor.foodapp.model.ClientUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,6 @@ public class UserDao {
             throw new Exception("user not found");
         Map<String, Object>  result = resultList.get(0);
         return  result;
-
-
     }
 
     public void registerUser(ClientUser clientUser) throws Exception {
@@ -64,7 +63,7 @@ public class UserDao {
     public ClientUser getUserForEmail(String email) {
         String sql = "SELECT * FROM AppUser WHERE email_id = ?";
         Map<String, Object> result = jdbcTemplate.queryForMap(sql, email);
-        return new ClientUser(Integer.parseInt(result.get("id").toString()),result.get("email_id").toString() , "N/A", result.get("first_name").toString(),result.get("last_name").toString(),result.get("phone_number").toString(), CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(result.get("user_status").toString())));
+        return new ClientUser(Integer.parseInt(result.get("id").toString()),result.get("email_id").toString() , "N/A", result.get("first_name").toString(),result.get("last_name").toString(),result.get("phone_number").toString(), CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(result.get("user_status").toString())), CLIENT_ROLE.getByValue(Integer.parseInt(result.get("user_role").toString())));
     }
 
     public void logout(String email,String token) throws Exception {

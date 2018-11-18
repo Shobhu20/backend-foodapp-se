@@ -1,6 +1,7 @@
 package com.windsor.foodapp.service;
 
 import com.windsor.foodapp.dao.UserDao;
+import com.windsor.foodapp.enums.CLIENT_ROLE;
 import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.util.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class UserService {
     @Resource
     UserDao userDao;
 
+
     public Map<String, Object> authenticateUserAndGetToken(String email, String password) throws Exception {
         try {
             Map<String,Object> user = new HashMap<>();
@@ -26,6 +28,8 @@ public class UserService {
             else {
 
                 user.replace("password","N/A");
+                user.put("user_role", CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_role").toString())));
+                user.put("user_status", CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_status").toString())));
                 String token = genAndSaveToken(email);
                 user.put("token", token);
 

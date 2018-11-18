@@ -58,7 +58,7 @@ public class OrderDao {
 
 
     }
-
+//
 //    public List<OrderDetail> getOrdersForCustomer(String email) {
 //        List<OrderDetail> orderDetails = new ArrayList<>();
 //        String sql="select co.*,ap.email_id,it.* from appuser ap  inner join  customer_order co on ap.id=co.user_id inner join ordered_items it on it.order_id = co.id where ap.email_id = ?";
