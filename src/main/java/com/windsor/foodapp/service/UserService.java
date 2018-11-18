@@ -4,6 +4,7 @@ import com.windsor.foodapp.dao.UserDao;
 import com.windsor.foodapp.enums.CLIENT_ROLE;
 import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.util.RandomStringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +16,8 @@ import java.util.Map;
 @Service
 public class UserService {
 
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Resource
     UserDao userDao;
 
@@ -23,7 +26,8 @@ public class UserService {
         try {
             Map<String,Object> user = new HashMap<>();
             user = userDao.authenticateUserAndGetToken(email, password);
-            if (!user.get("password").toString().equals(password))
+            String encryptedPassword = encryptPassword(password);
+            if (!user.get("password").toString().equals(encryptedPassword))
                 throw new Exception("wrong password");
             else {
 
@@ -58,11 +62,14 @@ public class UserService {
 
     public void registerUser(ClientUser clientUser) throws Exception {
         try {
+            String encryptedPassword = encryptPassword(clientUser.getPassword());
+            clientUser.setPassword(encryptedPassword);
             userDao.registerUser(clientUser);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
+
 
     public void logout(String email, String token) throws Exception{
         try {
@@ -79,6 +86,7 @@ public class UserService {
         else return false;
     }
 
+
     public ClientUser getUserForEmail(String email) {
         return userDao.getUserForEmail(email);
     }
@@ -86,4 +94,10 @@ public class UserService {
     public void updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
         userDao.updateProfile(email, firstName, lastName, phoneNum, password);
     }
+
+    private String encryptPassword(String password) {
+        String encryptedPassword = passwordEncoder.encode(password);
+        return encryptedPassword;
+    }
+
 }
