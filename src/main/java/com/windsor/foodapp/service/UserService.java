@@ -26,8 +26,7 @@ public class UserService {
         try {
             Map<String,Object> user = new HashMap<>();
             user = userDao.authenticateUserAndGetToken(email, password);
-            String encryptedPassword = encryptPassword(password);
-            if (!user.get("password").toString().equals(encryptedPassword))
+            if (!passwordEncoder.matches(password, user.get("password").toString()))
                 throw new Exception("wrong password");
             else {
 
