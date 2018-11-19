@@ -66,16 +66,16 @@ public class OrderDao {
         if (restaurantId == null){
             sql = "select co.*,ap.email_id,it.id as order_item_id,it.name, it.order_id,it.restaurant_id,it.item_cost, it.quantity,it.restaurant_name " +
                     "from appuser ap  inner join  customer_order co on ap.id=co.user_id " +
-                    "inner join ordered_items it on it.order_id = co.id where ap.email_id = ?";
+                    "inner join ordered_items it on it.order_id = co.id where ap.email_id = ? order by co.order_time desc";
             maps = jdbcTemplate.queryForList(sql, email);
         }
         else {
             sql = "select co.*,ap.email_id,it.id as order_item_id,it.name, it.order_id,it.restaurant_id,it.item_cost, it.quantity,it.restaurant_name" +
                     " from appuser ap  inner join  customer_order co on ap.id=co.user_id " +
-                    "inner join ordered_items it on it.order_id = co.id where it.restaurant_id = ?";
+                    "inner join ordered_items it on it.order_id = co.id where it.restaurant_id = ? order by co.order_time desc";
             maps = jdbcTemplate.queryForList(sql, restaurantId);
         }
-        Map<Integer, OrderDetail> mapOfIdToResult = new HashMap<>();
+        LinkedHashMap<Integer, OrderDetail> mapOfIdToResult = new LinkedHashMap<>();
         for (Map<String, Object> map : maps) {
             int id = Integer.parseInt(map.get("id").toString());
             OrderItem orderItem = new OrderItem(Integer.parseInt(map.get("order_item_id").toString()),
@@ -108,5 +108,15 @@ public class OrderDao {
             orderDetailList.add(entry.getValue());
         }
         return orderDetailList;
+    }
+
+    public void updateOrderStatus(Integer orderId, ORDER_STATUS_ENUM orderStatus) {
+        try {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("UPDATE customer_order SET order_status = ? where id = ?");
+            jdbcTemplate.update(stringBuffer.toString(), orderStatus.getValue(), orderId);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }
