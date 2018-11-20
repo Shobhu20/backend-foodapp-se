@@ -48,9 +48,8 @@ public class LoggedInUserController {
         Map<String, Object> resultMap = new HashMap<>();
 
         try {
-            //userService.updateProfile(email, firstName, lastName, phoneNum, password);
+            userService.updateProfile(email, firstName, lastName, phoneNum, password);
             resultMap.put("status", "success");
-            resultMap.put("user", userService.updateProfile(email, firstName, lastName, phoneNum, password));
         } catch (Exception e) {
             resultMap.put("status", "failed");
             resultMap.put("reason", e.getMessage());

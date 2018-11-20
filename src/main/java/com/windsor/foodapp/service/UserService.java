@@ -91,10 +91,10 @@ public class UserService {
         return userDao.getUserForEmail(email);
     }
 
-    public ClientUser updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
+    public void updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
         try {
             String newEncryptedPassword = encryptPassword(password);
-          return  userDao.updateProfile(email, firstName, lastName, phoneNum, newEncryptedPassword);
+           userDao.updateProfile(email, firstName, lastName, phoneNum, newEncryptedPassword);
         } catch (Exception e) {
             throw  new Exception(e.getMessage());
         }

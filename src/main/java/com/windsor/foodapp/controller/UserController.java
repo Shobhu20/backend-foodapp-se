@@ -61,7 +61,7 @@ public class UserController {
         } catch (Exception e) {
             //TODO : get error message incase of duplicate email and give that instead
             resultMap.put("status", "failed");
-            resultMap.put("reason", "Email or Phone number already exists");
+            resultMap.put("reason", e.getMessage());
             return objectMapper.writeValueAsString(resultMap);
         }
     }
