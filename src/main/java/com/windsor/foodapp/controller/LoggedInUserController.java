@@ -42,11 +42,12 @@ public class LoggedInUserController {
                                     @RequestParam(value = "lastName", required = false) String lastName,
                                     @RequestParam(value = "password", required = false) String password,
                                     @RequestParam(value = "phoneNum", required = false) String phoneNum) throws JsonProcessingException {
-        Map<String, String> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
 
         try {
-            userService.updateProfile(email, firstName, lastName, phoneNum, password);
+            //userService.updateProfile(email, firstName, lastName, phoneNum, password);
             resultMap.put("status", "success");
+            resultMap.put("user", userService.updateProfile(email, firstName, lastName, phoneNum, password));
         } catch (Exception e) {
             resultMap.put("status", "failed");
             resultMap.put("reason", e.getMessage());
