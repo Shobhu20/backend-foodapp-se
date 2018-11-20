@@ -2,7 +2,6 @@ package com.windsor.foodapp.service;
 
 import com.windsor.foodapp.dao.UserDao;
 import com.windsor.foodapp.enums.CLIENT_ROLE;
-import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.util.RandomStringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,7 +32,7 @@ public class UserService {
 
                 user.replace("password","N/A");
                 user.put("user_role", CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_role").toString())));
-                user.put("user_status", CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(user.get("user_status").toString())));
+                user.put("user_status", CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_status").toString())));
                 String token = genAndSaveToken(email);
                 user.put("token", token);
 
