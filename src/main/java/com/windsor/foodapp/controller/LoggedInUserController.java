@@ -132,6 +132,7 @@ public class LoggedInUserController {
         } catch (Exception e) {
             resultMap.put("status", "failure");
             resultMap.put("message", e.getMessage());
+
         } finally {
             return objectMapper.writeValueAsString(resultMap);
         }
