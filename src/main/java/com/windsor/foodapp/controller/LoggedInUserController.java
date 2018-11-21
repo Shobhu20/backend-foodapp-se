@@ -153,19 +153,19 @@ public class LoggedInUserController {
         String name_error = "Please enter a valid name (upto 15 characters)";
         String phone_error = "Please enter a valid phone number";
 
-        if(password.equals("null"))
+        if(!StringUtils.isEmpty(password))
         if (password.length() < 8 ) {
             throw new Exception(password_error);
         }
-        if(firstName.equals("null"))
+        if(!StringUtils.isEmpty(firstName))
         if( (isAlpha(firstName) == false) || firstName.length() > 15 || firstName.length() < 1) {
             throw new Exception(name_error);
         }
-        if(lastName.equals("null"))
+        if(!StringUtils.isEmpty(lastName))
         if ((isAlpha(lastName) == false) || lastName.length() > 15 || lastName.length() < 1) {
             throw new Exception(name_error);
         }
-        if(phoneNum.equals("null"))
+        if(!StringUtils.isEmpty(phoneNum))
         if (isValidNumber(phoneNum) == false || phoneNum.length() < 1) {
             throw new Exception(phone_error);
         } else  {

@@ -7,6 +7,7 @@ import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.util.RandomStringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class UserService {
 
     public void updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
         try {
-            if(password!=null) {
+            if(!StringUtils.isEmpty(password)) {
                 String newEncryptedPassword = encryptPassword(password);
                 userDao.updateProfile(email, firstName, lastName, phoneNum, newEncryptedPassword);
             }
