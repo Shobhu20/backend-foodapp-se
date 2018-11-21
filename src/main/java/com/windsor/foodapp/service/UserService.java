@@ -93,8 +93,10 @@ public class UserService {
 
     public void updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
         try {
-            String newEncryptedPassword = encryptPassword(password);
-           userDao.updateProfile(email, firstName, lastName, phoneNum, newEncryptedPassword);
+            if(password!=null) {
+                String newEncryptedPassword = encryptPassword(password);
+                userDao.updateProfile(email, firstName, lastName, phoneNum, newEncryptedPassword);
+            }
         } catch (Exception e) {
             throw  new Exception(e.getMessage());
         }

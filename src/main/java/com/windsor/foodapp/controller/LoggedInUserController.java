@@ -8,6 +8,7 @@ import com.windsor.foodapp.model.CustomerOrder;
 import com.windsor.foodapp.model.OrderDetail;
 import com.windsor.foodapp.service.OrderService;
 import com.windsor.foodapp.service.UserService;
+import com.windsor.foodapp.util.ValidationUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,14 @@ public class LoggedInUserController {
                                     @RequestParam(value = "password", required = false) String password,
                                     @RequestParam(value = "phoneNum", required = false) String phoneNum) throws JsonProcessingException {
         Map<String, Object> resultMap = new HashMap<>();
+
+        try {
+            validateUserFields(email,firstName,lastName,phoneNum,password);
+        } catch (Exception e){
+            resultMap.put("status", "failed");
+            resultMap.put("reason", e.getMessage());
+            return objectMapper.writeValueAsString(resultMap);
+        }
 
         try {
             userService.updateProfile(email, firstName, lastName, phoneNum, password);
@@ -137,5 +146,47 @@ public class LoggedInUserController {
             return objectMapper.writeValueAsString(resultMap);
         }
     }
+
+    private void validateUserFields(String email,String firstName, String lastName,String phoneNum, String password) throws Exception {
+        String password_error = "The password is too short";
+        String email_error = "Please enter a valid email";
+        String name_error = "Please enter a valid name (upto 15 characters)";
+        String phone_error = "Please enter a valid phone number";
+
+        if(password.equals("null"))
+        if (password.length() < 8 ) {
+            throw new Exception(password_error);
+        }
+        if(firstName.equals("null"))
+        if( (isAlpha(firstName) == false) || firstName.length() > 15 || firstName.length() < 1) {
+            throw new Exception(name_error);
+        }
+        if(lastName.equals("null"))
+        if ((isAlpha(lastName) == false) || lastName.length() > 15 || lastName.length() < 1) {
+            throw new Exception(name_error);
+        }
+        if(phoneNum.equals("null"))
+        if (isValidNumber(phoneNum) == false || phoneNum.length() < 1) {
+            throw new Exception(phone_error);
+        } else  {
+            phoneNum = (phoneNum.replace("-",""));
+        }
+
+        ValidationUtils.validateEmail(email);
+
+
+    }
+
+    public boolean isAlpha(String name) {
+        if (name.matches("[a-zA-Z]+"))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isValidNumber(String number) {
+        return ValidationUtils.validatePhone(number);
+    }
+
 
 }
