@@ -26,7 +26,7 @@ public class UserController {
     @RequestMapping(value="/signIn", method = RequestMethod.POST)
     public String getHome(@RequestParam("email") String email, @RequestParam("password") String password) throws JsonProcessingException {
         Map<String, Object> resultMap = new HashMap<>();
-
+        email = email.toLowerCase();
         try {
             Map<String,Object> userDetail = new HashMap<>();
             userDetail = userService.authenticateUserAndGetToken(email,password);
