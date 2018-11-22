@@ -2,10 +2,12 @@ package com.windsor.foodapp.service;
 
 import com.windsor.foodapp.dao.UserDao;
 import com.windsor.foodapp.enums.CLIENT_ROLE;
+import com.windsor.foodapp.enums.CLIENT_STATUS_ENUM;
 import com.windsor.foodapp.model.ClientUser;
 import com.windsor.foodapp.util.RandomStringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class UserService {
 
                 user.replace("password","N/A");
                 user.put("user_role", CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_role").toString())));
-                user.put("user_status", CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_status").toString())));
+                user.put("user_status", CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(user.get("user_status").toString())));
                 String token = genAndSaveToken(email);
                 user.put("token", token);
 
@@ -91,7 +93,14 @@ public class UserService {
     }
 
     public void updateProfile(String email, String firstName, String lastName, String phoneNum, String password) throws Exception {
-        userDao.updateProfile(email, firstName, lastName, phoneNum, password);
+        try {
+            if(!StringUtils.isEmpty(password)) {
+                String newEncryptedPassword = encryptPassword(password);
+                userDao.updateProfile(email, firstName, lastName, phoneNum, newEncryptedPassword);
+            }
+        } catch (Exception e) {
+            throw  new Exception(e.getMessage());
+        }
     }
 
     private String encryptPassword(String password) {

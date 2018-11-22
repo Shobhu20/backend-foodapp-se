@@ -56,14 +56,37 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         for(Map.Entry<Integer, Integer> entry: foodIdToQuantityMap.entrySet()) {
             FoodItem foodItem = foodIdtoItemMap.get(entry.getKey());
-            OrderItem orderItem = new OrderItem(entry.getKey()/*todo wrong this is new id*/, foodItem.getName(), orderId,foodItem.getRestaurantId(),foodItem.getRestaurantName(), foodItem.getCost(), entry.getValue());
+            OrderItem orderItem = new OrderItem(entry.getKey(), foodItem.getName(), orderId,foodItem.getRestaurantId(),foodItem.getRestaurantName(), foodItem.getCost(), entry.getValue());
             orderItems.add(orderItem);
         }
         orderDao.createOrderItems(orderItems);
         return customerOrder;
     }
 
-    public List<OrderDetail> getOrdersForParameters(String email, Integer restaurantId) {
-        return orderDao.getOrdersForParameters(email, restaurantId);
+    public LinkedHashMap<String, List<OrderDetail>> getOrdersForParameters(String email, Integer restaurantId) {
+        return segregateOrderBasedOnOrderStatus(orderDao.getOrdersForParameters(email, restaurantId));
+    }
+
+    private LinkedHashMap<String, List<OrderDetail>> segregateOrderBasedOnOrderStatus(List<OrderDetail> ordersDetails) {
+        LinkedHashMap<String, List<OrderDetail>> resultMap= new LinkedHashMap<>();
+        resultMap.put("ACTIVE", new ArrayList<>());
+        resultMap.put("COMPLETED", new ArrayList<>());
+        for(OrderDetail orderDetail : ordersDetails) {
+            if(orderDetail.getCustomerOrder().getOrder_status() == ORDER_STATUS_ENUM.ACTIVE){
+                List<OrderDetail> orderDetailList = resultMap.get("ACTIVE");
+                orderDetailList.add(orderDetail);
+                resultMap.put("ACTIVE", orderDetailList);
+            }
+            else if (orderDetail.getCustomerOrder().getOrder_status() == ORDER_STATUS_ENUM.COMPLETED) {
+                List<OrderDetail> orderDetailList = resultMap.get("COMPLETED");
+                orderDetailList.add(orderDetail);
+                resultMap.put("COMPLETED", orderDetailList);
+            }
+        }
+        return resultMap;
+    }
+
+    public void updateOrderStatus(Integer orderId, ORDER_STATUS_ENUM orderStatus) {
+        orderDao.updateOrderStatus(orderId, orderStatus);
     }
 }

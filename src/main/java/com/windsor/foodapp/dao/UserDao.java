@@ -33,8 +33,8 @@ public class UserDao {
           try {
               jdbcTemplate.update(sql);
           } catch (Exception e) {
-              if(e.getMessage().contains("duplicate key value violates unique constraint \"con_first\""))
-                  throw new Exception("email already exists");
+              if(e.getMessage().contains("duplicate key value violates unique constraint "))
+                  throw new Exception("email/phone number already exists");
               throw new Exception(e.getMessage());
           }
     }
@@ -94,5 +94,7 @@ public class UserDao {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+
+
     }
 }

@@ -80,7 +80,7 @@ public class UserController {
         String name_error = "Please enter a valid name (upto 15 characters)";
         String phone_error = "Please enter a valid phone number";
 
-        if (clientUser.getPassword().length() < 8) {
+        if (clientUser.getPassword().length() < 8 ) {
             throw new Exception(password_error);
         }
         if( (isAlpha(clientUser.getFirstName()) == false) || clientUser.getFirstName().length() > 15 || clientUser.getFirstName().length() < 1) {
