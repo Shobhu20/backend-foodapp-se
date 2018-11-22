@@ -16,7 +16,7 @@ alter sequence AppUser_id_seq restart with 1;
 
 insert into AppUser (first_name,last_name,email_id, password,phone_number,user_status)
 values ('test_user1','username2','test@test.com','testpass',1234567890,0);
-s
+
 
 create table authtoken(
 id serial primary key,
@@ -70,3 +70,9 @@ restaurant_name varchar,
 item_cost numeric(7,2),
 quantity int
 );
+
+
+create table vendor_restaurant_mapping (
+user_id int references AppUser(id),
+restuarant_id int references restaurant(id)
+)

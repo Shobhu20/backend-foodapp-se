@@ -97,4 +97,14 @@ public class UserDao {
 
 
     }
+
+    public int getRestaurantIdForVendor(int userId) throws Exception {
+        String sql = "select restuarant_id from vendor_restaurant_mapping where user_id = ?";
+        try {
+        Map<String, Object> resultMap = jdbcTemplate.queryForMap(sql, userId);
+        return Integer.parseInt(resultMap.get("restuarant_id").toString());
+        } catch (Exception e) {
+            throw new Exception("Error in getting restaurant id  for vendor");
+        }
+    }
 }

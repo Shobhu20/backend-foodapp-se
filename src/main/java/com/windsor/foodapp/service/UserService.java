@@ -31,12 +31,16 @@ public class UserService {
             if (!passwordEncoder.matches(password, user.get("password").toString()))
                 throw new Exception("wrong password");
             else {
-
+                CLIENT_ROLE userRole = CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_role").toString()));
                 user.replace("password","N/A");
-                user.put("user_role", CLIENT_ROLE.getByValue(Integer.parseInt(user.get("user_role").toString())));
+                user.put("user_role", userRole.toString());
                 user.put("user_status", CLIENT_STATUS_ENUM.getByValue(Integer.parseInt(user.get("user_status").toString())));
                 String token = genAndSaveToken(email);
                 user.put("token", token);
+                if(userRole == CLIENT_ROLE.VENDOR) {
+                    int restaurantId = userDao.getRestaurantIdForVendor(Integer.parseInt(user.get("id").toString()));
+                    user.put("restaurant_id", restaurantId);
+                }
 
                 return user;
             }
