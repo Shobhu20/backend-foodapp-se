@@ -102,6 +102,7 @@ public class UserService {
                 String newEncryptedPassword = encryptPassword(password);
                 userDao.updateProfile(email, firstName, lastName, phoneNum, newEncryptedPassword);
             }
+            userDao.updateProfile(email, firstName, lastName, phoneNum, null);
         } catch (Exception e) {
             throw  new Exception(e.getMessage());
         }
