@@ -54,12 +54,16 @@ public class OrderService {
 
 
         List<OrderItem> orderItems = new ArrayList<>();
+        Set<Integer> restaurantIds = new HashSet<>();
         for(Map.Entry<Integer, Integer> entry: foodIdToQuantityMap.entrySet()) {
             FoodItem foodItem = foodIdtoItemMap.get(entry.getKey());
-            OrderItem orderItem = new OrderItem(entry.getKey(), foodItem.getName(), orderId,foodItem.getRestaurantId(),foodItem.getRestaurantName(), foodItem.getCost(), entry.getValue());
+            Integer restaurantId = foodItem.getRestaurantId();
+            OrderItem orderItem = new OrderItem(entry.getKey(), foodItem.getName(), orderId,restaurantId,foodItem.getRestaurantName(), foodItem.getCost(), entry.getValue());
             orderItems.add(orderItem);
+            restaurantIds.add(restaurantId);
         }
         orderDao.createOrderItems(orderItems);
+        orderDao.createChildOrdersForRestaurant(orderId, restaurantIds);
         return customerOrder;
     }
 
@@ -86,7 +90,11 @@ public class OrderService {
         return resultMap;
     }
 
-    public void updateOrderStatus(Integer orderId, ORDER_STATUS_ENUM orderStatus) {
-        orderDao.updateOrderStatus(orderId, orderStatus);
+    public void updateOrderStatus(Integer restaurantId, Integer orderId, ORDER_STATUS_ENUM orderStatus) {
+        orderDao.updateOrderStatus(restaurantId ,orderId, orderStatus);
+    }
+
+    public Integer getRestaurantIdForUser(String email) throws Exception {
+        return userDao.getRestaurantIdForVendor(email);
     }
 }

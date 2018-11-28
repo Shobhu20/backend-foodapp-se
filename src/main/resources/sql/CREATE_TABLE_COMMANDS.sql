@@ -76,3 +76,10 @@ create table vendor_restaurant_mapping (
 user_id int references AppUser(id),
 restuarant_id int references restaurant(id)
 )
+
+create table restaurant_order_status (
+restaurant_id int references restaurant(id),
+order_id int references customer_order(id),
+order_status int,
+primary(order_id, restaurant_id)
+)

@@ -56,10 +56,25 @@ public class OrderDao {
                 return orderItems.size();
             }
         });
-
-
     }
+    public void createChildOrdersForRestaurant(int orderId, Set<Integer> restaurantIds) {
+        //ORDER_STATUS_ENUM.ACTIVE.getValue()
+        List<Integer> restaurantIdsList = new ArrayList<>(restaurantIds);
+        String sql = "INSERT INTO restaurant_order_status (order_id, restaurant_id, order_status) values (?, ?, ?)";
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setInt(1, orderId);
+                ps.setInt(2, restaurantIdsList.get(i));
+                ps.setInt(3, ORDER_STATUS_ENUM.ACTIVE.getValue());
+            }
 
+            @Override
+            public int getBatchSize() {
+                return restaurantIdsList.size();
+            }
+        });
+    }
     public List<OrderDetail> getOrdersForParameters(String email, Integer restaurantId) {
         String sql;
         List<Map<String, Object>> maps;
@@ -70,9 +85,12 @@ public class OrderDao {
             maps = jdbcTemplate.queryForList(sql, email);
         }
         else {
-            sql = "select co.*,ap.email_id,it.id as order_item_id,it.name, it.order_id,it.restaurant_id,it.item_cost, it.quantity,it.restaurant_name" +
+            sql = "select co.id, co.user_id, co.user_name, co.total_cost, co.order_time, co.foodcourt_id, co.foodcourt_name,co.prep_time, ros.order_status"+
+                    ",ap.email_id,it.id as order_item_id,it.name, it.order_id,it.restaurant_id,it.item_cost, it.quantity,it.restaurant_name" +
                     " from appuser ap  inner join  customer_order co on ap.id=co.user_id " +
-                    "inner join ordered_items it on it.order_id = co.id where it.restaurant_id = ? order by co.order_time desc";
+                    "inner join ordered_items it on it.order_id = co.id" +
+                    " inner join restaurant_order_status ros on it.order_id = ros.order_id and it.restaurant_id = ros.restaurant_id " +
+                    " where it.restaurant_id = ? order by co.order_time desc";
             maps = jdbcTemplate.queryForList(sql, restaurantId);
         }
         LinkedHashMap<Integer, OrderDetail> mapOfIdToResult = new LinkedHashMap<>();
@@ -110,11 +128,20 @@ public class OrderDao {
         return orderDetailList;
     }
 
-    public void updateOrderStatus(Integer orderId, ORDER_STATUS_ENUM orderStatus) {
+    public void updateOrderStatus(Integer restaurantId, Integer orderId, ORDER_STATUS_ENUM orderStatus) {
         try {
             StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append("UPDATE customer_order SET order_status = ? where id = ?");
-            jdbcTemplate.update(stringBuffer.toString(), orderStatus.getValue(), orderId);
+
+            stringBuffer.append("UPDATE restaurant_order_status SET order_status = ? where restaurant_id = ? and order_id = ?");
+
+            jdbcTemplate.update(stringBuffer.toString(), orderStatus.getValue(), restaurantId ,orderId);
+
+            String sqlForCheckingIfAllOrdersComplete = "select * from restaurant_order_status where order_id = ? and order_status = ?";
+            List<Map<String, Object>> maps = jdbcTemplate.queryForList(sqlForCheckingIfAllOrdersComplete, orderId, ORDER_STATUS_ENUM.ACTIVE.getValue());
+            if(maps.isEmpty()) {
+                String sqlForUpdatingParentOrder = "UPDATE customer_order SET order_status = ? where id = ?";
+                jdbcTemplate.update(sqlForUpdatingParentOrder, orderStatus.getValue(), orderId);
+            }
         } catch (Exception e) {
             throw e;
         }

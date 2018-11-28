@@ -107,4 +107,16 @@ public class UserDao {
             throw new Exception("Error in getting restaurant id  for vendor");
         }
     }
+
+    public int getRestaurantIdForVendor(String email) throws Exception {
+        String sql = "select vrm.restuarant_id from vendor_restaurant_mapping vrm join appuser appu" +
+                 " on vrm.user_id = appu.id"+
+                " where appu.email_id = ?";
+        try {
+            Map<String, Object> resultMap = jdbcTemplate.queryForMap(sql, email);
+            return Integer.parseInt(resultMap.get("restuarant_id").toString());
+        } catch (Exception e) {
+            throw new Exception("Error in getting restaurant id  for vendor");
+        }
+    }
 }

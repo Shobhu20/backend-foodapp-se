@@ -135,7 +135,8 @@ public class LoggedInUserController {
                 throw new Exception("order status cannot be empty");
             if (!orderStatus.equalsIgnoreCase("ACTIVE") && !orderStatus.equalsIgnoreCase("COMPLETED"))
                 throw new Exception("order status can only be active or completed");
-            orderService.updateOrderStatus(orderId, ORDER_STATUS_ENUM.valueOf(orderStatus.toUpperCase()));
+            Integer restaurantId = orderService.getRestaurantIdForUser(email);
+            orderService.updateOrderStatus(restaurantId, orderId, ORDER_STATUS_ENUM.valueOf(orderStatus.toUpperCase()));
             resultMap.put("status", "success");
 
         } catch (Exception e) {
